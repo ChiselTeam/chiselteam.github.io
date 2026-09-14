@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="Player guide for Chisel: installation, chiseling, modes, automation, and building tools.">
+  <title>Player Guide — ChiselTeam</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171c22'/%3E%3Cpath d='M8 23 22 9l2 2L10 25z' fill='%23f3b33d'/%3E%3Cpath d='m20 7 5 5 2-2-5-5z' fill='%239aa5af'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true"></span>Chisel<span>Team</span></a>
+      <button class="mobile-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+      <nav class="top-nav" id="primary-navigation" data-navigation aria-label="Primary navigation">
+        <a href="../../">Home</a><a href="../../projects/">Projects</a><a href="./" aria-current="page">Player docs</a><a href="../modpacks/">Modpack docs</a><a href="../developers/">Developer docs</a><a class="github-link" href="https://github.com/ChiselTeam">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="docs-shell">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <p class="sidebar-label">Audience guides</p>
+      <nav class="sidebar-nav">
+        <a href="./" aria-current="page">For players</a>
+        <a href="../modpacks/">For modpack authors</a>
+        <a href="../developers/">For developers</a>
+        <a href="../ctm/">CTM reference</a>
+      </nav>
+      <p class="sidebar-label">On this page</p>
+      <nav class="sidebar-nav">
+        <a href="#install">Install</a><a href="#first-chisel">Your first chisel</a><a href="#modes">Chisel modes</a><a href="#tools">Other tools</a><a href="#troubleshooting">Troubleshooting</a>
+      </nav>
+    </aside>
+
+    <article class="doc-content">
+      <div class="crumbs"><a href="../../">Home</a><span>/</span><span>Player guide</span></div>
+      <header>
+        <p class="eyebrow">Documentation / Players</p>
+        <h1>Build more. Repeat less.</h1>
+        <p class="doc-lede">Everything you need to turn a familiar block into a complete building palette—and use Chisel's construction tools without guesswork.</p>
+        <div class="doc-meta"><span class="badge accent">Chisel 26.1.2.18</span><span class="badge">Minecraft 26.1.2</span><span class="badge">NeoForge</span></div>
+      </header>
+
+      <section class="doc-section" id="install">
+        <h2>Install Chisel</h2>
+        <ol class="steps">
+          <li><strong>Install NeoForge for Minecraft 26.1.2.</strong> Chisel is built for NeoForge and does not run on Fabric or Quilt.</li>
+          <li><strong>Add Chisel and CTM to the mods folder.</strong> CTM is a required library and must match the Minecraft version used by Chisel.</li>
+          <li><strong>Launch the game.</strong> Confirm both mods appear in the loaded-mod list before opening a world.</li>
+        </ol>
+        <div class="callout warning"><strong>Match the versions exactly.</strong> A file marked “latest” may target a different Minecraft release. When reporting an issue, include the exact Chisel, CTM, NeoForge, and Minecraft versions.</div>
+      </section>
+
+      <section class="doc-section" id="first-chisel">
+        <h2>Your first chisel</h2>
+        <p>Craft an iron, diamond, or obsidian chisel and use it to open the Chisel menu. Place a supported block in the input slot, browse every variant in its family, and choose the pattern you want.</p>
+        <div class="doc-cards">
+          <div class="doc-card"><h3>Preview first</h3><p>Selecting a variant updates the preview. The input is converted only when you confirm the operation.</p></div>
+          <div class="doc-card"><h3>Search the family</h3><p>Use the search field to find a variant by name or description when a family has a large catalog.</p></div>
+          <div class="doc-card"><h3>Work in stacks</h3><p>Use the menu's bulk interaction to process matching blocks from your inventory when you are building at scale.</p></div>
+          <div class="doc-card"><h3>Keep the material</h3><p>Variants within a family convert between one another; Chisel changes appearance, not the underlying material tier.</p></div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="modes">
+        <h2>Chisel modes</h2>
+        <p>In-world modes change the shape of the selection affected when chiseling placed blocks. Hold the configured mode-selection key, scroll to the mode you want, and release the key to select it. The world outline previews affected blocks before you act.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Mode</th><th>Best for</th></tr></thead>
+          <tbody>
+            <tr><td><code>Single</code></td><td>Changing one block with precise control.</td></tr>
+            <tr><td><code>Row</code></td><td>Horizontal strips, trim, and long accents.</td></tr>
+            <tr><td><code>Column</code></td><td>Pillars and vertical architectural details.</td></tr>
+            <tr><td><code>Panel</code></td><td>Larger flat surfaces such as walls and floors.</td></tr>
+            <tr><td><code>Shapeless</code></td><td>Connected groups when a rectangular selection is not useful.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="doc-section" id="tools">
+        <h2>Tools beyond the chisel</h2>
+        <h3>Auto Chisel</h3>
+        <p>Automates one conversion at a time. Supply input blocks, a template block from the same family, and a valid chisel. Finished blocks move into the output area, and item pipes can insert input and extract output.</p>
+        <h3>Builder's Guide</h3>
+        <p>Projects construction guides for shapes such as cubes, cylinders, and domes. Use it to establish the outline, then fill the visible positions with your chosen blocks.</p>
+        <h3>Measuring Tape</h3>
+        <p>Measures distances between blocks and displays the result in the world—useful for centering builds and keeping repeated sections consistent.</p>
+        <h3>Offset Tool</h3>
+        <p>Shifts the pattern used by supported vertical connected textures. The in-world indicator shows the direction of the next adjustment.</p>
+      </section>
+
+      <section class="doc-section" id="troubleshooting">
+        <h2>Troubleshooting</h2>
+        <h3>A block does not appear in the Chisel menu</h3>
+        <p>The block may not belong to a registered variant family. In a modpack, the author can add compatible blocks through Chisel's family tags.</p>
+        <h3>Connected textures are missing</h3>
+        <p>Confirm CTM is installed, that Chisel and CTM target the same Minecraft release, and that connected textures are not being overridden by an incompatible resource pack.</p>
+        <h3>The game crashed</h3>
+        <p>Open an issue and include exact version numbers, the complete crash report or latest log, and an image when the problem is visual. Reproduce the issue without unrelated resource packs when possible.</p>
+        <div class="button-row"><a class="button" href="https://github.com/ChiselTeam/Chisel-3/issues">Report a Chisel issue ↗</a></div>
+      </section>
+      <nav class="next-doc" aria-label="Next documentation"><span></span><a href="../modpacks/">Next: Modpack author guide →</a></nav>
+    </article>
+
+    <aside class="on-this-page"><p class="sidebar-label">On this page</p><a href="#install">Install</a><a href="#first-chisel">Your first chisel</a><a href="#modes">Chisel modes</a><a href="#tools">Other tools</a><a href="#troubleshooting">Troubleshooting</a></aside>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><span>© <span data-year></span> ChiselTeam.</span><div class="footer-links"><a href="https://github.com/ChiselTeam">GitHub</a><a href="https://github.com/ChiselTeam/Chisel-3/issues">Issues</a></div></div></footer>
+  <script src="../../assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="Developer guide for the Chisel addon API and CTM connected-texture library.">
+  <title>Developer Guide — ChiselTeam</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171c22'/%3E%3Cpath d='M8 23 22 9l2 2L10 25z' fill='%23f3b33d'/%3E%3Cpath d='m20 7 5 5 2-2-5-5z' fill='%239aa5af'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true"></span>Chisel<span>Team</span></a>
+    <button class="mobile-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+    <nav class="top-nav" id="primary-navigation" data-navigation aria-label="Primary navigation"><a href="../../">Home</a><a href="../../projects/">Projects</a><a href="../players/">Player docs</a><a href="../modpacks/">Modpack docs</a><a href="./" aria-current="page">Developer docs</a><a class="github-link" href="https://github.com/ChiselTeam">GitHub ↗</a></nav>
+  </div></header>
+  <main id="main" class="docs-shell">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <p class="sidebar-label">Audience guides</p><nav class="sidebar-nav"><a href="../players/">For players</a><a href="../modpacks/">For modpack authors</a><a href="./" aria-current="page">For developers</a><a href="../ctm/">CTM reference</a></nav>
+      <p class="sidebar-label">On this page</p><nav class="sidebar-nav"><a href="#choose-api">Choose an API</a><a href="#query">Query families</a><a href="#register">Register a family</a><a href="#ctm-dependency">Add CTM</a><a href="#api-boundaries">API boundaries</a><a href="#contributing">Contributing</a></nav>
+    </aside>
+
+    <article class="doc-content">
+      <div class="crumbs"><a href="../../">Home</a><span>/</span><span>Developer guide</span></div>
+      <header>
+        <p class="eyebrow">Documentation / Developers</p>
+        <h1>Build on ChiselTeam.</h1>
+        <p class="doc-lede">Add your blocks to Chisel's conversion system, query families at runtime, or use CTM as a standalone connected-texture library.</p>
+        <div class="doc-meta"><span class="badge accent">Java 25</span><span class="badge">NeoForge 26.1.2</span><span class="badge">GPL-3.0</span></div>
+      </header>
+
+      <section class="doc-section" id="choose-api">
+        <h2>Choose the right integration</h2>
+        <div class="doc-cards">
+          <div class="doc-card"><h3>One existing family</h3><p>Use a <a href="../modpacks/#family-tags">block tag</a>. No Java integration is needed.</p></div>
+          <div class="doc-card"><h3>A new family</h3><p>Register addon-owned blocks with the experimental Chisel family API.</p></div>
+          <div class="doc-card"><h3>Runtime inspection</h3><p>Use the stable read-only <code>ChiselAPI</code> lookup methods.</p></div>
+          <div class="doc-card"><h3>Connected textures only</h3><p>Depend directly on CTM and use its JSON or datagen model system.</p></div>
+        </div>
+      </section>
+
+      <section class="doc-section" id="query">
+        <h2>Query Chisel families</h2>
+        <p>The stable, read-only facade returns the family containing a block or all families available under a registry view.</p>
+        <div class="code-wrap"><span class="code-label">Java</span><pre><code>Optional&lt;VariantFamily&gt; family = ChiselAPI.getFamily(block, registryAccess);
+Collection&lt;VariantFamily&gt; families = ChiselAPI.getFamilies(registryAccess);</code></pre></div>
+        <p>Pass the active <code>RegistryAccess</code>. Family membership may include datapack-provided tag entries, so do not replace this lookup with a static map captured before data loading completes.</p>
+      </section>
+
+      <section class="doc-section" id="register">
+        <h2>Register an addon family</h2>
+        <p>Register your blocks through your own <code>DeferredRegister.Blocks</code>, then queue the family relationship during mod construction or common setup. Chisel resolves queued suppliers after registries are complete and freezes registration at load complete.</p>
+        <div class="code-wrap"><span class="code-label">Java</span><pre><code>public static final DeferredRegister.Blocks BLOCKS =
+        DeferredRegister.createBlocks("examplemod");
+
+public static final DeferredBlock&lt;Block&gt; MARBLE =
+        BLOCKS.registerSimpleBlock("marble");
+public static final DeferredBlock&lt;Block&gt; MARBLE_BRICKS =
+        BLOCKS.registerSimpleBlock("marble_bricks");
+
+ChiselAPI.registerFamily(
+        Identifier.fromNamespaceAndPath("examplemod", "marble"),
+        family -&gt; family
+                .variant(MARBLE)
+                .variant(MARBLE_BRICKS, ChiselModelHandlers.CONNECTED)
+);</code></pre></div>
+        <p>You can assign a logical name, select a model handler, hide a selectable variant, or associate a block tag through <code>ChiselFamilyBuilder</code>.</p>
+        <div class="callout warning"><strong>The registration API is experimental.</strong> Code under <code>api.family.registration</code> may change. The runtime lookup facade and core family/model types are the supported read-only surface.</div>
+      </section>
+
+      <section class="doc-section" id="ctm-dependency">
+        <h2>Add CTM to a development environment</h2>
+        <p>CTM is published through Modrinth's Maven endpoint. Limit the repository to Modrinth artifacts, then add CTM as a compile-only dependency if your runtime or mod distribution supplies it separately.</p>
+        <div class="code-wrap"><span class="code-label">build.gradle</span><pre><code>repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
+dependencies {
+    compileOnly("maven.modrinth:ctmlib:${ctm_version}")
+}</code></pre></div>
+        <p>Continue with the <a href="../ctm/">CTM model reference</a> for JSON definitions, model kinds, texture slots, and datagen.</p>
+      </section>
+
+      <section class="doc-section" id="api-boundaries">
+        <h2>Know the ownership boundaries</h2>
+        <ul>
+          <li>Your addon owns its blocks and registry entries.</li>
+          <li>Your addon owns its blockstates, models, textures, loot tables, recipes, and translations.</li>
+          <li>A Chisel model handler records runtime model metadata; it does not generate resources in your namespace.</li>
+          <li>Types annotated <code>@ApiStatus.Internal</code> are implementation details, even when Java visibility makes them accessible.</li>
+          <li>Chisel rejects duplicate family IDs, duplicate blocks or logical names, conflicting membership, null suppliers, empty families, and registrations made too late.</li>
+        </ul>
+      </section>
+
+      <section class="doc-section" id="contributing">
+        <h2>Contributing</h2>
+        <p>Bug fixes, translations, documentation, and well-scoped features are welcome. Open a discussion issue before starting a large change, and send Chisel pull requests to the <code>dev</code> branch rather than <code>master</code>.</p>
+        <ul>
+          <li>Keep changes focused; do not submit formatting-only pull requests.</li>
+          <li>Explain the user-facing problem and how you tested the solution.</li>
+          <li>For rendering fixes, include before-and-after images and the model JSON used to reproduce the issue.</li>
+          <li>Follow the existing Java style and avoid depending on internal APIs.</li>
+        </ul>
+        <div class="button-row"><a class="button" href="https://github.com/ChiselTeam/Chisel-3">Contribute to Chisel ↗</a><a class="button" href="https://github.com/ChiselTeam/CTM">Contribute to CTM ↗</a></div>
+      </section>
+      <nav class="next-doc" aria-label="Next documentation"><a href="../modpacks/">← Modpack author guide</a><a href="../ctm/">Next: CTM reference →</a></nav>
+    </article>
+
+    <aside class="on-this-page"><p class="sidebar-label">On this page</p><a href="#choose-api">Choose an API</a><a href="#query">Query families</a><a href="#register">Register a family</a><a href="#ctm-dependency">Add CTM</a><a href="#api-boundaries">API boundaries</a><a href="#contributing">Contributing</a></aside>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><span>© <span data-year></span> ChiselTeam.</span><div class="footer-links"><a href="https://github.com/ChiselTeam">GitHub</a><a href="https://github.com/ChiselTeam/Chisel-3/issues">Issues</a></div></div></footer>
+  <script src="../../assets/js/site.js"></script>
+</body>
+</html>

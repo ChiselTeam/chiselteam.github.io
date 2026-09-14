@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="Official home and documentation for Chisel and CTM, maintained by the ChiselTeam.">
+  <title>ChiselTeam — Build with more detail</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171c22'/%3E%3Cpath d='M8 23 22 9l2 2L10 25z' fill='%23f3b33d'/%3E%3Cpath d='m20 7 5 5 2-2-5-5z' fill='%239aa5af'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="ChiselTeam home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Chisel<span>Team</span>
+      </a>
+      <button class="mobile-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+      <nav class="top-nav" id="primary-navigation" data-navigation aria-label="Primary navigation">
+        <a href="./" aria-current="page">Home</a>
+        <a href="./projects/">Projects</a>
+        <a href="./docs/players/">Player docs</a>
+        <a href="./docs/modpacks/">Modpack docs</a>
+        <a href="./docs/developers/">Developer docs</a>
+        <a class="github-link" href="https://github.com/ChiselTeam">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Minecraft decoration, rebuilt</p>
+          <h1>Build with <em>more detail.</em></h1>
+          <p class="hero-copy">Chisel turns familiar materials into a deep palette of architectural blocks. CTM gives those blocks seamless edges, large patterns, and expressive surfaces.</p>
+          <div class="button-row">
+            <a class="button primary" href="./docs/players/">Start playing</a>
+            <a class="button" href="./docs/developers/">Build with our APIs</a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="A collage of Chisel block textures">
+          <div class="texture-card one"><img src="./assets/img/marble-tiles.png" alt="Chisel marble tile texture"></div>
+          <div class="texture-card two"><img src="./assets/img/voidstone-runic.png" alt="Chisel runic voidstone texture"></div>
+          <div class="texture-card three"><img src="./assets/img/futura-controller.png" alt="Chisel Futura controller texture"></div>
+          <img class="chisel-sprite" src="./assets/img/chisel-diamond.png" alt="Diamond chisel">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="documentation">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Documentation</p>
+            <h2>Choose your path</h2>
+          </div>
+          <p>Get the answer you need without wading through internals that do not apply to you.</p>
+        </div>
+        <div class="audience-grid">
+          <a class="audience-card" href="./docs/players/">
+            <span class="number">01 / PLAYERS</span>
+            <h3>Shape your world</h3>
+            <p>Install Chisel, learn the tools, switch modes, and turn ordinary blocks into something worth building around.</p>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="audience-card" href="./docs/modpacks/">
+            <span class="number">02 / MODPACK AUTHORS</span>
+            <h3>Make it fit your pack</h3>
+            <p>Extend variant families with tags, tune durability, understand dependencies, and ship compatible resources.</p>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="audience-card" href="./docs/developers/">
+            <span class="number">03 / DEVELOPERS</span>
+            <h3>Build on the system</h3>
+            <p>Use the Chisel addon API or bring CTM's JSON models and datagen helpers into your own NeoForge mod.</p>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Open source</p>
+            <h2>Two projects, one toolkit</h2>
+          </div>
+          <p>Chisel is the player-facing building mod. CTM is the rendering library behind its connected textures.</p>
+        </div>
+        <div class="project-grid two">
+          <a class="project-card" href="https://github.com/ChiselTeam/Chisel-3">
+            <div class="project-top">
+              <span class="project-name">Chisel-3</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+            <p>A from-the-ground-up Chisel rewrite for modern NeoForge. Includes rich block families, chisel modes, automation, measuring and building tools.</p>
+            <div class="badge-row">
+              <span class="badge accent">26.1.2.18</span>
+              <span class="badge">NeoForge 26.1.2</span>
+              <span class="badge">GPL-3.0</span>
+            </div>
+          </a>
+          <a class="project-card" href="https://github.com/ChiselTeam/CTM">
+            <div class="project-top">
+              <span class="project-name">CTM</span>
+              <span aria-hidden="true">↗</span>
+            </div>
+            <p>A NeoForge-native connected-texture library with standard, directional, multiblock, anti-repeat, edges, layered, and custom-overlay models.</p>
+            <div class="badge-row">
+              <span class="badge accent">26.1.2.8</span>
+              <span class="badge">JSON + Datagen</span>
+              <span class="badge">GPL-3.0</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container manifesto">
+        <div class="manifesto-copy">
+          <p class="eyebrow">The idea</p>
+          <h2>More choice. Less visual noise.</h2>
+          <p>Chisel expands a builder's palette without changing the material underneath. CTM lets neighboring blocks behave like one deliberate surface instead of a grid of repeated tiles.</p>
+          <div class="button-row">
+            <a class="button" href="./projects/">Explore the projects</a>
+            <a class="button" href="https://github.com/orgs/ChiselTeam/repositories">Browse source ↗</a>
+          </div>
+        </div>
+        <div class="texture-wall" aria-hidden="true">
+          <img src="./assets/img/technical-scaffold.png" alt="">
+          <img src="./assets/img/glass-blue-ctm.png" alt="">
+          <img src="./assets/img/voidstone-runic.png" alt="">
+          <img src="./assets/img/marble-tiles.png" alt="">
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>© <span data-year></span> ChiselTeam. Open-source Minecraft mods.</span>
+      <div class="footer-links">
+        <a href="https://github.com/ChiselTeam">GitHub</a>
+        <a href="https://github.com/ChiselTeam/Chisel-3/issues">Issues</a>
+        <a href="./docs/developers/#contributing">Contribute</a>
+      </div>
+    </div>
+  </footer>
+  <script src="./assets/js/site.js"></script>
+</body>
+</html>

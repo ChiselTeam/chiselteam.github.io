@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="Modpack author guide for Chisel: dependencies, family tags, configuration, compatibility, and issue reports.">
+  <title>Modpack Author Guide — ChiselTeam</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171c22'/%3E%3Cpath d='M8 23 22 9l2 2L10 25z' fill='%23f3b33d'/%3E%3Cpath d='m20 7 5 5 2-2-5-5z' fill='%239aa5af'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true"></span>Chisel<span>Team</span></a>
+    <button class="mobile-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+    <nav class="top-nav" id="primary-navigation" data-navigation aria-label="Primary navigation"><a href="../../">Home</a><a href="../../projects/">Projects</a><a href="../players/">Player docs</a><a href="./" aria-current="page">Modpack docs</a><a href="../developers/">Developer docs</a><a class="github-link" href="https://github.com/ChiselTeam">GitHub ↗</a></nav>
+  </div></header>
+  <main id="main" class="docs-shell">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <p class="sidebar-label">Audience guides</p><nav class="sidebar-nav"><a href="../players/">For players</a><a href="./" aria-current="page">For modpack authors</a><a href="../developers/">For developers</a><a href="../ctm/">CTM reference</a></nav>
+      <p class="sidebar-label">On this page</p><nav class="sidebar-nav"><a href="#dependencies">Dependencies</a><a href="#family-tags">Family tags</a><a href="#configuration">Configuration</a><a href="#compatibility">Compatibility</a><a href="#release-checklist">Release checklist</a></nav>
+    </aside>
+
+    <article class="doc-content">
+      <div class="crumbs"><a href="../../">Home</a><span>/</span><span>Modpack author guide</span></div>
+      <header>
+        <p class="eyebrow">Documentation / Modpacks</p>
+        <h1>Make Chisel belong in your pack.</h1>
+        <p class="doc-lede">Keep versions aligned, connect outside blocks to Chisel families, and tune the experience without maintaining a custom fork.</p>
+        <div class="doc-meta"><span class="badge accent">Data-pack friendly</span><span class="badge">Server configurable</span><span class="badge">NeoForge</span></div>
+      </header>
+
+      <section class="doc-section" id="dependencies">
+        <h2>Dependencies and versions</h2>
+        <p>Chisel requires CTM. Package both files and make sure all three version lines—Minecraft, Chisel, and CTM—belong to the same release family.</p>
+        <div class="table-wrap"><table><thead><tr><th>Component</th><th>Current project baseline</th><th>Role</th></tr></thead><tbody>
+          <tr><td>Chisel</td><td><code>26.1.2.18</code></td><td>Blocks, tools, recipes, menus, and family logic</td></tr>
+          <tr><td>CTM</td><td><code>26.1.2.8</code></td><td>Required connected-texture rendering library</td></tr>
+          <tr><td>NeoForge</td><td><code>26.1.2.106+</code></td><td>Mod loader and platform APIs</td></tr>
+        </tbody></table></div>
+        <div class="callout"><strong>Pack clients and servers consistently.</strong> Chisel belongs on both sides. Test a dedicated server separately from an integrated single-player world before releasing the pack.</div>
+      </section>
+
+      <section class="doc-section" id="family-tags">
+        <h2>Add blocks to a variant family</h2>
+        <p>Every Chisel family has a common block tag, typically <code>c:chisel/&lt;family_name&gt;</code>. A datapack can add blocks from Minecraft or another mod to that family, allowing conversion in both directions.</p>
+        <ol class="steps">
+          <li>Identify the family name, such as <code>aluminum</code>.</li>
+          <li>Create <code>data/c/tags/block/chisel/aluminum.json</code> in your datapack or KubeJS data resources.</li>
+          <li>Add the external block IDs under <code>values</code>.</li>
+          <li>Reload and confirm every block has an item form and behaves sensibly when converted.</li>
+        </ol>
+        <div class="code-wrap"><span class="code-label">data/c/tags/block/chisel/aluminum.json</span><pre><code>{
+  "replace": false,
+  "values": [
+    "minecraft:iron_block",
+    "examplemod:aluminum_block"
+  ]
+}</code></pre></div>
+        <div class="callout warning"><strong>Do not replace the family tag.</strong> Keep <code>"replace": false</code> unless you intentionally want to discard every entry provided by Chisel and other datapacks.</div>
+      </section>
+
+      <section class="doc-section" id="configuration">
+        <h2>Configure durability</h2>
+        <p>Chisel's common startup configuration controls durability for each tool tier. The generated file is <code>config/chisel_common.toml</code>.</p>
+        <div class="code-wrap"><span class="code-label">config/chisel_common.toml</span><pre><code>[general]
+iron_chisel_durability = 512
+diamond_chisel_durability = 5096
+obsidian_chisel_durability = 10048</code></pre></div>
+        <p>Set a durability value to <code>0</code> to disable durability for that chisel. Because these are startup settings, restart the game or server after changing them.</p>
+      </section>
+
+      <section class="doc-section" id="compatibility">
+        <h2>Compatibility strategy</h2>
+        <ul>
+          <li><strong>Prefer tags for simple family membership.</strong> This is the smallest and most maintainable integration point.</li>
+          <li><strong>Let the owning mod provide resources.</strong> Chisel does not generate models, textures, loot tables, or translations inside another mod's namespace.</li>
+          <li><strong>Test connected textures with resource packs.</strong> Model overrides can change or remove the texture slots CTM expects.</li>
+          <li><strong>Check recipes with JEI.</strong> Chisel exposes its conversions through JEI when that integration is present.</li>
+          <li><strong>Avoid duplicate memberships.</strong> A block should not belong to conflicting Chisel families.</li>
+        </ul>
+        <p>If your integration needs a new family, custom registration, or model metadata—not just membership—use the <a href="../developers/">developer addon API</a>.</p>
+      </section>
+
+      <section class="doc-section" id="release-checklist">
+        <h2>Pack release checklist</h2>
+        <ul>
+          <li>Launch a clean client with the exact exported pack files.</li>
+          <li>Join a dedicated server and open both Chisel and Auto Chisel menus.</li>
+          <li>Verify custom family-tag blocks convert in both directions.</li>
+          <li>Place connected glass and at least one multiblock texture across a chunk boundary.</li>
+          <li>Confirm chisel durability matches the intended pack balance.</li>
+          <li>Keep the full log and exported mod list for issue reports.</li>
+        </ul>
+      </section>
+      <nav class="next-doc" aria-label="Next documentation"><a href="../players/">← Player guide</a><a href="../developers/">Next: Developer guide →</a></nav>
+    </article>
+
+    <aside class="on-this-page"><p class="sidebar-label">On this page</p><a href="#dependencies">Dependencies</a><a href="#family-tags">Family tags</a><a href="#configuration">Configuration</a><a href="#compatibility">Compatibility</a><a href="#release-checklist">Release checklist</a></aside>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><span>© <span data-year></span> ChiselTeam.</span><div class="footer-links"><a href="https://github.com/ChiselTeam">GitHub</a><a href="https://github.com/ChiselTeam/Chisel-3/issues">Issues</a></div></div></footer>
+  <script src="../../assets/js/site.js"></script>
+</body>
+</html>

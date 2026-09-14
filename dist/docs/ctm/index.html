@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="CTM connected-texture model and datagen reference for NeoForge developers.">
+  <title>CTM Reference — ChiselTeam</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171c22'/%3E%3Cpath d='M8 23 22 9l2 2L10 25z' fill='%23f3b33d'/%3E%3Cpath d='m20 7 5 5 2-2-5-5z' fill='%239aa5af'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="../../"><span class="brand-mark" aria-hidden="true"></span>Chisel<span>Team</span></a>
+    <button class="mobile-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+    <nav class="top-nav" id="primary-navigation" data-navigation aria-label="Primary navigation"><a href="../../">Home</a><a href="../../projects/">Projects</a><a href="../players/">Player docs</a><a href="../modpacks/">Modpack docs</a><a href="../developers/">Developer docs</a><a class="github-link" href="https://github.com/ChiselTeam">GitHub ↗</a></nav>
+  </div></header>
+  <main id="main" class="docs-shell">
+    <aside class="docs-sidebar" aria-label="Documentation navigation">
+      <p class="sidebar-label">Audience guides</p><nav class="sidebar-nav"><a href="../players/">For players</a><a href="../modpacks/">For modpack authors</a><a href="../developers/">For developers</a><a href="./" aria-current="page">CTM reference</a></nav>
+      <p class="sidebar-label">On this page</p><nav class="sidebar-nav"><a href="#minimal">Minimal model</a><a href="#kinds">Model kinds</a><a href="#textures">Texture slots</a><a href="#connections">Connections</a><a href="#datagen">Datagen</a><a href="#layered">Layered CTM</a></nav>
+    </aside>
+
+    <article class="doc-content">
+      <div class="crumbs"><a href="../../">Home</a><span>/</span><span>CTM reference</span></div>
+      <header>
+        <p class="eyebrow">Documentation / CTM</p>
+        <h1>Connected textures, defined.</h1>
+        <p class="doc-lede">CTM is a NeoForge-native model library for seamless surfaces, directional joins, multiblock artwork, anti-repeat textures, edges, layers, emissivity, and conditional overlays.</p>
+        <div class="doc-meta"><span class="badge accent">CTM 26.1.2.8</span><span class="badge">JSON models</span><span class="badge">Fluent datagen</span></div>
+      </header>
+
+      <section class="doc-section" id="minimal">
+        <h2>Minimal blockstate model</h2>
+        <p>Put the custom model definition directly at the root of the blockstate JSON. CTM uses NeoForge's <code>neoforge:definition_type</code>; it is not a vanilla <code>loader</code> field.</p>
+        <div class="code-wrap"><span class="code-label">assets/examplemod/blockstates/connected_block.json</span><pre><code>{
+  "neoforge:definition_type": "ctm:connected_texture_model",
+  "model_location": "examplemod:block/connected_block",
+  "connected_faces": ["all"],
+  "variant": {
+    "block": "examplemod:connected_block",
+    "kind": "standard"
+  }
+}</code></pre></div>
+        <p>The referenced block model supplies texture slots and ordinary model properties. You may override or provide slots directly with a <code>texture_slots</code> object.</p>
+      </section>
+
+      <section class="doc-section" id="kinds">
+        <h2>Supported model kinds</h2>
+        <div class="table-wrap"><table><thead><tr><th>Kind</th><th>Behavior</th><th>Main connected slot</th></tr></thead><tbody>
+          <tr><td><code>standard</code></td><td>Classic four-quadrant CTM</td><td><code>overlay_connected</code></td></tr>
+          <tr><td><code>tbs</code></td><td>Distinct top, bottom, and side connections</td><td>Face-specific connected slots</td></tr>
+          <tr><td><code>bookshelf</code></td><td>Horizontal bookshelf joins on horizontal faces</td><td><code>overlay_horizontal</code></td></tr>
+          <tr><td><code>ctmh</code> / <code>ctmv</code></td><td>Horizontal or vertical directional CTM</td><td>Directional overlay slot</td></tr>
+          <tr><td><code>edges</code></td><td>Quadrant edge connections with obscured-face support</td><td><code>overlay_connected</code></td></tr>
+          <tr><td><code>edges_full</code></td><td>Selects a 4×4 atlas cell and stretches it over the face</td><td><code>overlay_connected</code></td></tr>
+          <tr><td><code>multiblock_2x2</code> / <code>3x3</code> / <code>4x4</code></td><td>Fixed repeating multiblock artwork</td><td>Matching multiblock slot</td></tr>
+          <tr><td><code>v4</code> / <code>v9</code> / <code>v16</code></td><td>Deterministic provider-based multiblock</td><td>2×2, 3×3, or 4×4 slot</td></tr>
+          <tr><td><code>r4</code> / <code>r9</code> / <code>r16</code></td><td>Random per-position selection</td><td>2×2, 3×3, or 4×4 slot</td></tr>
+          <tr><td><code>ar</code></td><td>Deterministic anti-repeat selection</td><td><code>overlay_2x2</code></td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="doc-section" id="textures">
+        <h2>Texture slots and material controls</h2>
+        <div class="code-wrap"><span class="code-label">JSON fragment</span><pre><code>"texture_slots": {
+  "base_texture": "examplemod:block/base",
+  "overlay_texture": "examplemod:block/unconnected",
+  "overlay_connected": "examplemod:block/connected",
+  "particle": "examplemod:block/base"
+},
+"base_tint_index": -1,
+"base_emissivity": 0,
+"tint_index": -1,
+"emissivity": 0,
+"shade": true,
+"eldritch": false</code></pre></div>
+        <p>Common slots include <code>base_texture</code>, <code>overlay_texture</code>, <code>overlay_connected</code>, face-specific TBS slots, <code>overlay_horizontal</code>, <code>overlay_vertical</code>, <code>overlay_2x2</code>, <code>overlay_3x3</code>, <code>overlay_4x4</code>, and <code>particle</code>. Custom overlay rules may refer to additional named materials.</p>
+      </section>
+
+      <section class="doc-section" id="connections">
+        <h2>Control what connects</h2>
+        <p>Without an explicit predicate, a CTM model connects to the same block. Use <code>connects_to</code> to accept other blocks or a specific block state.</p>
+        <div class="code-wrap"><span class="code-label">JSON fragment</span><pre><code>"connects_to": [
+  { "id": "examplemod:connected_block" },
+  {
+    "id": "minecraft:oak_log",
+    "state": { "id": "axis", "value": "y" }
+  }
+]</code></pre></div>
+        <p>The list uses OR behavior. Restrict participation to selected faces with names such as <code>north</code> and <code>south</code>, or use <code>["all"]</code>.</p>
+      </section>
+
+      <section class="doc-section" id="datagen">
+        <h2>Generate a standard CTM model</h2>
+        <p><code>CTMModelTemplates</code> writes the supporting block model and <code>CTMBlockStateGenerator</code> writes the custom blockstate root.</p>
+        <div class="code-wrap"><span class="code-label">Java</span><pre><code>Identifier base = Identifier.fromNamespaceAndPath(
+        "examplemod", "block/connected_block");
+Identifier connected = Identifier.fromNamespaceAndPath(
+        "examplemod", "block/connected_block_ctm");
+
+TextureMapping textures = new TextureMapping()
+        .put(TextureSlot.PARTICLE, base)
+        .put(CTMTextureSlots.BASE, base)
+        .put(CTMTextureSlots.OVERLAY_CONNECTED, connected);
+
+Identifier model = CTMModelTemplates.STANDARD.create(
+        block, textures, blockModels.modelOutput);
+
+CTMModelBuilder builder = CTMModelBuilder.standard(block, model)
+        .allFaces();
+
+blockModels.blockStateOutput.accept(
+        CTMBlockStateGenerator.of(block, builder));</code></pre></div>
+        <p>Builder factories are available for standard, TBS, anti-repeat, bookshelf, horizontal, vertical, edges, edges-full, and fixed 2×2/3×3/4×4 multiblock models.</p>
+      </section>
+
+      <section class="doc-section" id="layered">
+        <h2>Layer independent CTM models</h2>
+        <p>Use <code>ctm:layered_connected_texture_model</code> when a block needs two or more independently connected surfaces. Layers draw bottom-to-top and may use different kinds, face sets, connection predicates, and textures.</p>
+        <div class="code-wrap"><span class="code-label">JSON fragment</span><pre><code>{
+  "neoforge:definition_type": "ctm:layered_connected_texture_model",
+  "layers": [
+    {
+      "model_location": "examplemod:block/bottom_layer",
+      "connected_faces": ["all"],
+      "variant": {
+        "block": "examplemod:layered_block",
+        "kind": "standard"
+      }
+    },
+    {
+      "model_location": "examplemod:block/top_layer",
+      "connected_faces": ["all"],
+      "variant": {
+        "block": "examplemod:layered_block",
+        "kind": "standard",
+        "water_offset": true
+      }
+    }
+  ]
+}</code></pre></div>
+        <div class="callout"><strong>Avoid coplanar artifacts.</strong> Use transparency in upper textures and enable <code>water_offset</code> on the upper layer when overlapping quads would otherwise z-fight.</div>
+        <div class="button-row"><a class="button" href="https://github.com/ChiselTeam/CTM/blob/main/docs/MODELS.md">Full model specification ↗</a><a class="button" href="https://github.com/ChiselTeam/CTM/blob/main/docs/DATAGEN.md">Full datagen guide ↗</a></div>
+      </section>
+      <nav class="next-doc" aria-label="Previous documentation"><a href="../developers/">← Developer guide</a><span></span></nav>
+    </article>
+
+    <aside class="on-this-page"><p class="sidebar-label">On this page</p><a href="#minimal">Minimal model</a><a href="#kinds">Model kinds</a><a href="#textures">Texture slots</a><a href="#connections">Connections</a><a href="#datagen">Datagen</a><a href="#layered">Layered CTM</a></aside>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><span>© <span data-year></span> ChiselTeam.</span><div class="footer-links"><a href="https://github.com/ChiselTeam">GitHub</a><a href="https://github.com/ChiselTeam/CTM/issues">CTM issues</a></div></div></footer>
+  <script src="../../assets/js/site.js"></script>
+</body>
+</html>

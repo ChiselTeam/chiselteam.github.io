@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="ChiselTeam open-source projects: Chisel and CTM for modern NeoForge Minecraft.">
+  <title>Projects — ChiselTeam</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23171c22'/%3E%3Cpath d='M8 23 22 9l2 2L10 25z' fill='%23f3b33d'/%3E%3Cpath d='m20 7 5 5 2-2-5-5z' fill='%239aa5af'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><div class="header-inner">
+    <a class="brand" href="../"><span class="brand-mark" aria-hidden="true"></span>Chisel<span>Team</span></a>
+    <button class="mobile-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">Menu</button>
+    <nav class="top-nav" id="primary-navigation" data-navigation aria-label="Primary navigation"><a href="../">Home</a><a href="./" aria-current="page">Projects</a><a href="../docs/players/">Player docs</a><a href="../docs/modpacks/">Modpack docs</a><a href="../docs/developers/">Developer docs</a><a class="github-link" href="https://github.com/ChiselTeam">GitHub ↗</a></nav>
+  </div></header>
+  <main id="main">
+    <section class="hero" style="min-height:auto; padding-bottom:4rem">
+      <div class="container">
+        <p class="eyebrow">ChiselTeam / Projects</p>
+        <h1>Tools for better surfaces.</h1>
+        <p class="hero-copy">Our player-facing building mod and rendering library are developed together, but each project has a clear job and can evolve on its own.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="project-grid two">
+          <article class="project-card">
+            <div class="project-top"><span class="project-name">Chisel-3</span><span class="badge accent">Application</span></div>
+            <p>Expands familiar Minecraft materials into large families of decorative variants. Players can convert blocks through a visual menu, work directly in the world with selectable modes, automate bulk conversions, and lay out complex builds with dedicated tools.</p>
+            <div class="badge-row"><span class="badge">26.1.2.18</span><span class="badge">Java</span><span class="badge">NeoForge</span><span class="badge">GPL-3.0</span></div>
+            <div class="button-row"><a class="button primary" href="../docs/players/">Player guide</a><a class="button" href="https://github.com/ChiselTeam/Chisel-3">Source ↗</a><a class="button" href="https://github.com/ChiselTeam/Chisel-3/issues">Issues ↗</a></div>
+          </article>
+          <article class="project-card">
+            <div class="project-top"><span class="project-name">CTM</span><span class="badge accent">Library</span></div>
+            <p>Provides custom NeoForge blockstate models for connected, directional, layered, multiblock, anti-repeat, emissive, and conditionally overlaid textures. Mods can author definitions directly in JSON or generate them through the Java API.</p>
+            <div class="badge-row"><span class="badge">26.1.2.8</span><span class="badge">Java</span><span class="badge">JSON</span><span class="badge">GPL-3.0</span></div>
+            <div class="button-row"><a class="button primary" href="../docs/ctm/">CTM reference</a><a class="button" href="https://github.com/ChiselTeam/CTM">Source ↗</a><a class="button" href="https://github.com/ChiselTeam/CTM/issues">Issues ↗</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container section-heading">
+        <div><p class="eyebrow">Shared principles</p><h2>Modern, focused, interoperable.</h2></div>
+        <p>Both projects target NeoForge 26.1.2, keep public integration surfaces intentionally small, and use standard data resources wherever that is the cleanest extension point.</p>
+      </div>
+      <div class="container feature-grid">
+        <div class="feature-card"><h3>Data where it fits</h3><p>Tags extend Chisel families. JSON defines CTM behavior. Java remains available when an integration needs runtime logic.</p></div>
+        <div class="feature-card"><h3>Clear ownership</h3><p>Addons retain ownership of their blocks and resources. Chisel and CTM provide the relationships and rendering systems.</p></div>
+        <div class="feature-card"><h3>Built in the open</h3><p>Both repositories are GPL-3.0 licensed and accept focused bug fixes, documentation, translations, and discussed features.</p></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><span>© <span data-year></span> ChiselTeam.</span><div class="footer-links"><a href="https://github.com/ChiselTeam">GitHub</a><a href="../docs/developers/#contributing">Contribute</a></div></div></footer>
+  <script src="../assets/js/site.js"></script>
+</body>
+</html>
